@@ -27,6 +27,8 @@ import (
 	"errors"
 	"io"
 	"strconv"
+
+	"golang.org/x/text/encoding/charmap"
 )
 
 type decoder struct {
@@ -109,6 +111,11 @@ func (decoder *decoder) readString() (string, error) {
 
 	buffer := make([]byte, stringLength)
 	_, err = io.ReadFull(decoder, buffer)
+	latin1, enodeErr := charmap.ISO8859_1.NewEncoder().Bytes(buffer)
+	if encodeErr == nil {
+		buffer = latin1
+	}
+
 	return string(buffer), err
 }
 
