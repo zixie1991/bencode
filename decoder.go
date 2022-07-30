@@ -111,8 +111,8 @@ func (decoder *decoder) readString() (string, error) {
 
 	buffer := make([]byte, stringLength)
 	_, err = io.ReadFull(decoder, buffer)
-	latin1, encodeErr := charmap.ISO8859_1.NewEncoder().Bytes(buffer)
-	if encodeErr == nil {
+	latin1, decodeErr := charmap.ISO8859_1.NewDecoder().Bytes(buffer)
+	if decodeErr == nil {
 		buffer = latin1
 	}
 
